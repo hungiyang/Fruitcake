@@ -3,8 +3,8 @@ model = "model
 	# Phil's true height in cm
 	height ~ dnorm(175, 1/20^2)
 
-	# True weight in kg
-	
+	# True weight in pounds
+	weight ~ dnorm(150, 1/100^2)
 
 	# Student-t parameters
 	log_sigma ~ dunif(-10, 10)
@@ -12,10 +12,22 @@ model = "model
 	log_nu ~ dunif(0, 5)
 	nu <- exp(log_nu)
 
+	# Probability of bad BMI classification
+	p_bad ~ dunif(0, 1)
+
+	# True BMI
+	BMI <- (weight*0.454)/(height/100)^2
+
 	# Likelihood
 	for(i in 1:N)
 	{
 		log_height_guesses[i] ~ dt(log(height), 1/sigma^2, nu)
+
+		# Probability of being classified into the three BMI classes
+		p1[i] <- p_bad/3 + (1 - p_bad)*(1 - step(BMI - 18.5))
+		p2[i] <- p_bad/3 + (1 - p_bad)*step(BMI - 18.5)*(1 - step(BMI - 24.9)) 
+		p3[i] <- p_bad/3 + (1 - p_bad)*step(BMI - 24.9)
+
 	}
 }
 "
