@@ -10,7 +10,8 @@ def draw():
     pgm.add_node(daft.Node("w", r"$w$", 0.8, 2.8))
     pgm.add_node(daft.Node("h", r"$h$", 1.8, 2.8))
     pgm.add_node(daft.Node("sigma", r"$\sigma$", 2.6, 2.2))
-    pgm.add_node(daft.Node("Pbad", r"$P_{\rm bad}$", 1.8, 0.6))
+    pgm.add_node(daft.Node("a",r"$a$",0.8,2.2))
+    #pgm.add_node(daft.Node("Pbad", r"$P_{\rm bad}$", 1.8, 0.6))
 
     # Latent variable - BMI:
     pgm.add_node(daft.Node("BMI", r"${\rm BMI}$", 1.3, 2.2, fixed=True, offset=(20,-10)))
@@ -23,10 +24,11 @@ def draw():
     pgm.add_edge("w", "BMI")
     pgm.add_edge("h", "BMI")
     pgm.add_edge("BMI", "bobs")
-    pgm.add_edge("Pbad", "bobs")
-    pgm.add_edge("Pbad", "hobs")
+    #pgm.add_edge("Pbad", "bobs")
+    #pgm.add_edge("Pbad", "hobs")
     pgm.add_edge("h", "hobs")
     pgm.add_edge("sigma", "hobs")
+    pgm.add_edge("a","bobs")
 
     # And a plate for the pixels
     pgm.add_plate(daft.Plate([0.5, 1.0, 2.7, 0.8], label=r"observers $k$", shift=-0.1))
