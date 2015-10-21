@@ -38,3 +38,6 @@ def draw():
     pgm.figure.savefig("fruitcake_pgm.png", dpi=300)
 
     return
+
+if __name__ == '__main__':
+    draw()
